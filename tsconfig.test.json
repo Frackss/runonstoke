@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".test-dist",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "rootDir": ".",
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["lib/**/*.ts", "types/**/*.ts", "tests/**/*.ts", "data/raw-demo-data.ts"],
+  "exclude": ["node_modules", ".next", ".test-dist"]
+}

@@ -1,0 +1,10 @@
+node_modules
+.next
+.test-dist
+out
+dist
+.env*
+.npm-cache
+.config
+*.log
+.vercel
