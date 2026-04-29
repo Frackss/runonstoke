@@ -2,6 +2,7 @@ import { Award, CalendarCheck2, Gauge, HeartPulse, MapPin, Target } from "lucide
 
 import { PageShell } from "@/components/page-shell";
 import { DataQualityReportCard } from "@/components/data-quality-report";
+import { ProfileTrainingStatusTag } from "@/components/profile-training-status-tag";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -45,14 +46,14 @@ export default function ProfilePage() {
       description="A complete runner profile that makes the demo feel personal without adding authentication or a database."
     >
       <section className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-        <Card className="relative overflow-hidden border-emerald-300/15 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(9,9,11,0.92))]">
+        <Card className="relative overflow-visible border-emerald-300/15 bg-[linear-gradient(145deg,rgba(16,185,129,0.14),rgba(9,9,11,0.92))]">
           <CardContent className="p-5">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <div className="flex size-24 items-center justify-center rounded-full border border-white/10 bg-emerald-300/15 text-3xl font-semibold text-emerald-100">
-                {demoAthlete.initials}
+                WF
               </div>
               <div>
-                <Badge>{demoAthlete.status}</Badge>
+                <ProfileTrainingStatusTag />
                 <h2 className="mt-3 text-3xl font-semibold text-white">{demoAthlete.name}</h2>
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-400">
                   <span>{demoAthlete.focus}</span>

@@ -41,7 +41,7 @@ export default function RecoveryPage() {
       title="Sleep, HRV, and readiness"
       description="A recovery-first view designed for runners who need to know when to push and when to absorb training."
     >
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid grid-cols-3 gap-4">
         {recoveryCards.map((card) => (
           <RecoveryCard key={card.title} {...card} />
         ))}

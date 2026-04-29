@@ -25,6 +25,13 @@ const tooltipStyle = {
   color: "#fafafa",
 };
 
+function minutesToPace(value: number) {
+  const totalSeconds = Math.round(value * 60);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  return `${minutes}:${seconds}/mi`;
+}
+
 export function TrainingCharts() {
   const [mounted, setMounted] = useState(false);
 
@@ -63,8 +70,11 @@ export function TrainingCharts() {
           <LineChart data={paceTrend} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
             <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
             <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fill: "#a1a1aa", fontSize: 12 }} />
-            <YAxis domain={[7.8, 9.8]} tickLine={false} axisLine={false} tick={{ fill: "#71717a", fontSize: 12 }} />
-            <Tooltip contentStyle={tooltipStyle} />
+            <YAxis domain={[8, 12.2]} tickLine={false} axisLine={false} tick={{ fill: "#71717a", fontSize: 12 }} />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              formatter={(value: number) => minutesToPace(value)}
+            />
             <Line type="monotone" dataKey="easy" stroke="#34d399" strokeWidth={3} dot={false} />
             <Line type="monotone" dataKey="goal" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" dot={false} />
           </LineChart>

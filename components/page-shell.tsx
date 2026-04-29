@@ -6,11 +6,13 @@ export function PageShell({
   eyebrow,
   title,
   description,
+  topContent,
   children,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  topContent?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -20,6 +22,7 @@ export function PageShell({
       transition={{ duration: 0.35, ease: "easeOut" }}
       className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8"
     >
+      {topContent}
       <div className="py-2">
         <p className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">
           {eyebrow}

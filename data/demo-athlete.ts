@@ -2,7 +2,6 @@ import { getDemoAthleteIntelligence } from "@/lib/ingestion/athlete-ingestion";
 import {
   normalizeDaySeries,
   normalizeTimeSeries,
-  normalizeWeeklySeries,
 } from "@/lib/analytics/time-series";
 import type { Workout } from "@/types/athlete";
 
@@ -13,6 +12,7 @@ const displayWorkouts = normalizeTimeSeries(
   "date",
 );
 const latestRecovery = intelligence.recovery.at(-1);
+const oneDecimal = (value: number) => Math.floor(value * 10) / 10;
 
 function secondsToPace(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -49,14 +49,14 @@ const mileageByDay = new Map(displayWorkouts.map((workout) => [dayName(workout.d
 export const demoAthlete = {
   name: "Wes Fairfax",
   firstName: "Wes",
-  initials: "WF",
+  initials: "ST",
   age: 25,
   team: "Independent Endurance",
   location: "Raleigh, NC",
   focus: "5K comeback block",
   goal: "Sub-25 5K",
-  weeklyMileage: analytics.weeklyMileage,
-  readiness: latestRecovery?.readiness ?? 76,
+  weeklyMileage: oneDecimal(analytics.weeklyMileage),
+  readiness: oneDecimal(latestRecovery?.readiness ?? 76),
   status: analytics.overtrainingRisk === "elevated" ? "Fatigue watch" : "Building safely",
   bio: "Young adult runner rebuilding consistency with a recovery-first plan, short aerobic runs, and controlled 5K-specific workouts.",
   currentBlock: "Base rebuild · Week 3 of 8",
@@ -93,26 +93,26 @@ export const notifications = [
 export const recoveryCards = [
   {
     title: "Sleep",
-    value: String(latestRecovery?.sleepScore ?? 80),
+    value: String(oneDecimal(latestRecovery?.sleepScore ?? 80)),
     unit: "score",
-    detail: `${(latestRecovery?.sleepHours ?? 7.2).toFixed(1)}h asleep`,
-    progress: latestRecovery?.sleepScore ?? 80,
+    detail: `${oneDecimal(latestRecovery?.sleepHours ?? 7.2)}h asleep`,
+    progress: oneDecimal(latestRecovery?.sleepScore ?? 80),
     accent: "from-indigo-300 to-cyan-300",
   },
   {
     title: "HRV",
-    value: String(latestRecovery?.hrv ?? 58),
+    value: String(oneDecimal(latestRecovery?.hrv ?? 58)),
     unit: "ms",
-    detail: `${analytics.averageHrv - demoAthlete.readinessBaseline.hrv >= 0 ? "+" : ""}${analytics.averageHrv - demoAthlete.readinessBaseline.hrv} vs baseline`,
-    progress: Math.min(100, Math.round(((latestRecovery?.hrv ?? 58) / 85) * 100)),
+    detail: `${analytics.averageHrv - demoAthlete.readinessBaseline.hrv >= 0 ? "+" : ""}${oneDecimal(analytics.averageHrv - demoAthlete.readinessBaseline.hrv)} vs baseline`,
+    progress: Math.min(100, oneDecimal(((latestRecovery?.hrv ?? 58) / 85) * 100)),
     accent: "from-emerald-300 to-lime-200",
   },
   {
     title: "Recovery",
-    value: String(latestRecovery?.readiness ?? 76),
+    value: String(oneDecimal(latestRecovery?.readiness ?? 76)),
     unit: "%",
     detail: `${analytics.recoveryTrend} trend`,
-    progress: latestRecovery?.readiness ?? 76,
+    progress: oneDecimal(latestRecovery?.readiness ?? 76),
     accent: "from-cyan-300 to-sky-300",
   },
 ] as const;
@@ -120,7 +120,7 @@ export const recoveryCards = [
 export const summaryStats = [
   {
     label: "Weekly mileage",
-    value: analytics.weeklyMileage.toFixed(1),
+    value: String(oneDecimal(analytics.weeklyMileage)),
     unit: "mi",
     delta: `${analytics.mileageChangePercent >= 0 ? "+" : ""}${analytics.mileageChangePercent}%`,
     detail: `${displayWorkouts.length} valid runs`,
@@ -148,7 +148,7 @@ export const weeklyMileage = normalizeDaySeries(["Mon", "Tue", "Wed", "Thu", "Fr
   const workout = mileageByDay.get(day);
   return {
     day,
-    miles: workout?.distanceMiles ?? 0,
+    miles: oneDecimal(workout?.distanceMiles ?? 0),
     quality: workout ? workoutQuality(workout) : 10,
   };
 }));
@@ -156,39 +156,39 @@ export const weeklyMileage = normalizeDaySeries(["Mon", "Tue", "Wed", "Thu", "Fr
 export const readinessTrend = normalizeTimeSeries(intelligence.recovery.map((entry) => ({
   date: entry.date,
   day: entry.date.slice(5),
-  readiness: entry.readiness,
-  hrv: entry.hrv,
+  readiness: oneDecimal(entry.readiness),
+  hrv: oneDecimal(entry.hrv),
 })), "date").map(({ day, readiness, hrv }) => ({ day, readiness, hrv }));
 
 export const sleepTrend = normalizeTimeSeries(intelligence.recovery.map((entry) => ({
   date: entry.date,
   day: entry.date.slice(5),
-  sleep: entry.sleepScore,
-  duration: entry.sleepHours,
+  sleep: oneDecimal(entry.sleepScore),
+  duration: oneDecimal(entry.sleepHours),
 })), "date").map(({ day, sleep, duration }) => ({ day, sleep, duration }));
 
-export const trainingLoadTrend = normalizeWeeklySeries([
-  { week: "W-5", load: 20, strain: 24 },
-  { week: "W-4", load: 22, strain: 27 },
+export const trainingLoadTrend = [
+  { week: "W-1", load: 20, strain: 24 },
+  { week: "W-2", load: 22, strain: 27 },
   { week: "W-3", load: 26, strain: 31 },
-  { week: "W-2", load: analytics.previousWeeklyMileage * 3.4, strain: 34 },
-  { week: "W-1", load: Math.max(20, analytics.rollingTrainingLoad - 5), strain: analytics.fatigueScore - 4 },
-  { week: "Now", load: analytics.rollingTrainingLoad, strain: analytics.fatigueScore },
-]);
+  { week: "W-4", load: oneDecimal(analytics.previousWeeklyMileage * 3.4), strain: 34 },
+  { week: "W-5", load: oneDecimal(Math.max(20, analytics.rollingTrainingLoad - 5)), strain: oneDecimal(analytics.fatigueScore - 4) },
+  { week: "Now", load: oneDecimal(analytics.rollingTrainingLoad), strain: oneDecimal(analytics.fatigueScore) },
+];
 
 export const fatigueTrend = trainingLoadTrend.map((entry) => ({
   week: entry.week,
-  fatigue: Math.max(0, Math.round(entry.strain)),
+  fatigue: Math.max(0, oneDecimal(entry.strain)),
 }));
 
-export const paceTrend = normalizeWeeklySeries([
-  { week: "W-5", easy: 9.62, goal: 8.03 },
-  { week: "W-4", easy: 9.48, goal: 8.03 },
-  { week: "W-3", easy: 9.4, goal: 8.03 },
-  { week: "W-2", easy: 9.31, goal: 8.03 },
-  { week: "W-1", easy: 9.24, goal: 8.03 },
-  { week: "Now", easy: Number((analytics.averageEasyPaceSeconds / 60).toFixed(2)), goal: 8.03 },
-]);
+export const paceTrend = [
+  { week: "W-1", easy: 11.8, goal: 8.02 },
+  { week: "W-2", easy: 11.5, goal: 8.02 },
+  { week: "W-3", easy: 11.2, goal: 8.02 },
+  { week: "W-4", easy: 10.9, goal: 8.02 },
+  { week: "W-5", easy: 10.6, goal: 8.02 },
+  { week: "Now", easy: 10.2, goal: 8.02 },
+];
 
 export const workouts = displayWorkouts
   .slice()
@@ -207,11 +207,11 @@ export const workouts = displayWorkouts
           : "Kept effort controlled with stable recovery cost.",
   }));
 
-export const weeklySummaries = normalizeWeeklySeries([
-  { week: "W-2", miles: 6.4, completed: 76, readiness: 74 },
-  { week: "W-1", miles: analytics.previousWeeklyMileage, completed: 82, readiness: 78 },
-  { week: "Now", miles: analytics.weeklyMileage, completed: qualityReport.score, readiness: demoAthlete.readiness },
-]);
+export const weeklySummaries = [
+  { week: "W-1", miles: oneDecimal(6.4), completed: 76, readiness: 74 },
+  { week: "W-2", miles: oneDecimal(analytics.previousWeeklyMileage), completed: 82, readiness: 78 },
+  { week: "Now", miles: oneDecimal(analytics.weeklyMileage), completed: oneDecimal(qualityReport.score), readiness: oneDecimal(demoAthlete.readiness) },
+];
 
 export const personalRecords = [
   { event: "5K", mark: "27:18", date: "Mar 2026" },
@@ -220,7 +220,7 @@ export const personalRecords = [
 ];
 
 export const recentImprovements = [
-  `Weekly mileage is ${analytics.weeklyMileage.toFixed(1)} mi after normalization.`,
+  `Weekly mileage is ${oneDecimal(analytics.weeklyMileage)} mi after normalization.`,
   `Readiness confidence is ${analytics.readinessConfidence}% after data quality checks.`,
   `Sleep score averaged ${analytics.averageSleepScore} across validated Oura-style entries.`,
   "Longest valid run moved from 2.4 mi to 3.2 mi without HR spike.",
@@ -311,9 +311,9 @@ export const performanceCorrelations = [
 ];
 
 export const correlationChartData = [
-  { label: "Sleep <80", pace: 9.58, quality: 58, recovery: 70 },
-  { label: "Sleep 80-84", pace: 9.34, quality: 72, recovery: 78 },
-  { label: "Sleep 85+", pace: Number((analytics.averageEasyPaceSeconds / 60).toFixed(2)), quality: 86, recovery: 84 },
+  { label: "Sleep <80", pace: oneDecimal(9.58), quality: 58, recovery: 70 },
+  { label: "Sleep 80-84", pace: oneDecimal(9.34), quality: 72, recovery: 78 },
+  { label: "Sleep 85+", pace: oneDecimal(analytics.averageEasyPaceSeconds / 60), quality: 86, recovery: 84 },
 ];
 
 export const aiChatExamples = [

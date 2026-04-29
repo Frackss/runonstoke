@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { DashboardCharts } from "@/components/dashboard-charts";
+import { GuidedDemoBanner } from "@/components/guided-demo-banner";
 import { PageShell } from "@/components/page-shell";
 import { RecoveryCard } from "@/components/recovery-card";
 import { StatCard } from "@/components/stat-card";
@@ -46,6 +47,7 @@ const todayFocusItems = [
 export default function DashboardPage() {
   return (
     <PageShell
+      topContent={<GuidedDemoBanner />}
       eyebrow="Overview"
       title={`Good morning, ${demoAthlete.firstName}.`}
       description="Your demo dashboard blends training load, sleep, HRV, readiness, and AI coaching signals into one runner-first view."
@@ -103,13 +105,10 @@ export default function DashboardPage() {
         </Card>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-4 md:grid-cols-3">
         {recoveryCards.map((card) => (
           <RecoveryCard key={card.title} {...card} />
         ))}
-      </section>
-
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {summaryStats.map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}

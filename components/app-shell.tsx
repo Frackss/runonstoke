@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/10 bg-zinc-950/70 p-4 backdrop-blur-xl lg:block">
         <Link href="/dashboard" className="flex items-center gap-3">
           <Avatar className="size-11">
-            <AvatarFallback>{demoAthlete.initials}</AvatarFallback>
+            <AvatarFallback className="bg-cyan-300 text-zinc-950">{demoAthlete.initials}</AvatarFallback>
           </Avatar>
           <div>
             <p className="text-sm font-semibold">Stoke</p>
@@ -81,14 +81,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex items-center justify-between gap-3">
           <Link href="/dashboard" className="flex items-center gap-3">
             <Avatar className="size-10">
-              <AvatarFallback>{demoAthlete.initials}</AvatarFallback>
+              <AvatarFallback className="bg-emerald-300 text-zinc-950">WF</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-semibold">Stoke</p>
-              <p className="text-xs text-zinc-500">{demoAthlete.goal}</p>
+              <p className="text-sm font-semibold">Wes Fairfax</p>
+              <p className="text-xs text-zinc-500">Sub-25 5K</p>
             </div>
           </Link>
-          <Badge variant="outline">{demoAthlete.status}</Badge>
+          <p className="text-sm font-semibold text-white">Stoke</p>
         </div>
       </header>
 
