@@ -35,8 +35,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <AvatarFallback>{demoAthlete.initials}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-sm font-semibold">Apex Run</p>
-            <p className="text-xs text-zinc-500">AI recovery OS</p>
+            <p className="text-sm font-semibold">Stoke</p>
+            <p className="text-xs text-zinc-500">AI recovery intelligence for runners.</p>
           </div>
         </Link>
 
@@ -84,7 +84,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <AvatarFallback>{demoAthlete.initials}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-semibold">Apex Run</p>
+              <p className="text-sm font-semibold">Stoke</p>
               <p className="text-xs text-zinc-500">{demoAthlete.goal}</p>
             </div>
           </Link>

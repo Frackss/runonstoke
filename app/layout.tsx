@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Apex Run Recovery",
+  title: "Stoke",
   description: "AI-powered recovery and performance dashboard for runners.",
 };
 

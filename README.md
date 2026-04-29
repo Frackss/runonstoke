@@ -1,4 +1,4 @@
-# Apex Run Recovery
+# Stoke
 
 A clean frontend MVP for a runners-only recovery and performance dashboard with a demo account flow.
 

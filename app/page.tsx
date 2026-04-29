@@ -17,8 +17,8 @@ export default function LoginPage() {
               <Footprints className="size-5" />
             </div>
             <div>
-              <p className="font-semibold text-white">Apex Run</p>
-              <p className="text-xs text-zinc-500">WHOOP for runners powered by AI</p>
+              <p className="font-semibold text-white">Stoke</p>
+              <p className="text-xs text-zinc-500">AI recovery intelligence for runners.</p>
             </div>
           </div>
           <Badge variant="outline">Demo only</Badge>
