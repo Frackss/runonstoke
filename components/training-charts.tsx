@@ -32,7 +32,7 @@ function minutesToPace(value: number) {
   return `${minutes}:${seconds}/mi`;
 }
 
-function formatPaceTooltip(value: number | string | Array<number | string> | undefined) {
+function formatPaceTooltip(value: unknown) {
   if (typeof value === "number") return minutesToPace(value);
   if (typeof value === "string") {
     const parsed = Number(value);
