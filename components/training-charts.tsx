@@ -32,6 +32,23 @@ function minutesToPace(value: number) {
   return `${minutes}:${seconds}/mi`;
 }
 
+function formatPaceTooltip(value: number | string | Array<number | string> | undefined) {
+  if (typeof value === "number") return minutesToPace(value);
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? minutesToPace(parsed) : value;
+  }
+  if (Array.isArray(value)) {
+    const first = value[0];
+    if (typeof first === "number") return minutesToPace(first);
+    if (typeof first === "string") {
+      const parsed = Number(first);
+      return Number.isFinite(parsed) ? minutesToPace(parsed) : first;
+    }
+  }
+  return "--";
+}
+
 export function TrainingCharts() {
   const [mounted, setMounted] = useState(false);
 
@@ -73,7 +90,7 @@ export function TrainingCharts() {
             <YAxis domain={[8, 12.2]} tickLine={false} axisLine={false} tick={{ fill: "#71717a", fontSize: 12 }} />
             <Tooltip
               contentStyle={tooltipStyle}
-              formatter={(value: number) => minutesToPace(value)}
+              formatter={formatPaceTooltip}
             />
             <Line type="monotone" dataKey="easy" stroke="#34d399" strokeWidth={3} dot={false} />
             <Line type="monotone" dataKey="goal" stroke="#f59e0b" strokeWidth={2} strokeDasharray="5 5" dot={false} />
