@@ -29,12 +29,19 @@ export default function LoginPage() {
             <Sparkles className="size-3.5" />
             Recovery intelligence for runners
           </Badge>
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Train smarter before the watch says you overdid it.
-          </h1>
-          <p className="mt-4 text-sm leading-6 text-zinc-400">
-            A premium demo account that combines training, recovery, and AI coaching signals for a single runner.
+          <p className="text-sm font-medium text-zinc-300">
+            Most runners overtrain by the time they feel it.
           </p>
+          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+            Stoke tells you when to push and when to rest —
+            <br />
+            before your body pays the price.
+          </h1>
+          <div className="mt-4 grid gap-2 text-sm text-zinc-400 sm:grid-cols-3">
+            <p>Reads your Oura + Apple Watch overnight data</p>
+            <p>Fuses HRV, sleep &amp; training load into one score</p>
+            <p>Rewrites your training plan every morning</p>
+          </div>
 
           <Card className="mt-8 bg-zinc-950/75">
             <CardContent className="space-y-3 p-4">
@@ -68,9 +75,7 @@ export default function LoginPage() {
           </Card>
         </div>
 
-        <p className="text-xs text-zinc-600">
-          No OAuth, backend, or real athlete data is connected in this MVP.
-        </p>
+        <p className="text-xs text-zinc-600">Live demo — no signup required</p>
       </section>
 
       <section className="hidden min-h-screen border-l border-white/10 bg-[linear-gradient(145deg,rgba(16,185,129,0.12),rgba(9,9,11,0.76)_44%,rgba(14,165,233,0.12))] p-8 lg:flex lg:items-center">
