@@ -19,10 +19,10 @@ import { logger } from "@/lib/logger";
 import { paceTrend, weeklySummaries } from "@/data/demo-athlete";
 
 const tooltipStyle = {
-  background: "rgba(9, 9, 11, 0.94)",
-  border: "1px solid rgba(255,255,255,0.12)",
+  background: "var(--chart-tooltip-bg)",
+  border: "1px solid var(--chart-tooltip-border)",
   borderRadius: "12px",
-  color: "#fafafa",
+  color: "var(--chart-tooltip-text)",
 };
 
 function minutesToPace(value: number) {
@@ -85,9 +85,9 @@ export function TrainingCharts() {
       <ChartCard title="Pace trend" description="Easy pace moving toward goal fitness">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={paceTrend} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-            <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-            <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fill: "#a1a1aa", fontSize: 12 }} />
-            <YAxis domain={[8, 12.2]} tickLine={false} axisLine={false} tick={{ fill: "#71717a", fontSize: 12 }} />
+            <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
+            <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fill: "var(--chart-label)", fontSize: 12 }} />
+            <YAxis domain={[8, 12.2]} tickLine={false} axisLine={false} tick={{ fill: "var(--chart-muted-label)", fontSize: 12 }} />
             <Tooltip
               contentStyle={tooltipStyle}
               formatter={formatPaceTooltip}
@@ -101,9 +101,9 @@ export function TrainingCharts() {
       <ChartCard title="Weekly consistency" description="Completion, mileage, and readiness">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={weeklySummaries} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-            <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-            <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fill: "#a1a1aa", fontSize: 12 }} />
-            <YAxis tickLine={false} axisLine={false} tick={{ fill: "#71717a", fontSize: 12 }} />
+            <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
+            <XAxis dataKey="week" tickLine={false} axisLine={false} tick={{ fill: "var(--chart-label)", fontSize: 12 }} />
+            <YAxis tickLine={false} axisLine={false} tick={{ fill: "var(--chart-muted-label)", fontSize: 12 }} />
             <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
             <Bar dataKey="miles" fill="#22d3ee" radius={[8, 8, 0, 0]} />
             <Bar dataKey="completed" fill="#34d399" radius={[8, 8, 0, 0]} opacity={0.45} />
