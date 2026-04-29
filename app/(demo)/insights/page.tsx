@@ -1,7 +1,10 @@
+"use client";
+
 import {
   Activity,
   ArrowRight,
   Brain,
+  ChevronDown,
   Clock3,
   Gauge,
   HeartPulse,
@@ -12,6 +15,7 @@ import {
   TrendingUp,
   Zap,
 } from "lucide-react";
+import { useState } from "react";
 
 import { AiCorrelationChart } from "@/components/ai-correlation-chart";
 import { DataQualityReportCard } from "@/components/data-quality-report";
@@ -65,7 +69,54 @@ const heroAnalysisCards = [
   },
 ];
 
+function AccordionPanel({
+  title,
+  summary,
+  open,
+  onToggle,
+  children,
+}: {
+  title: string;
+  summary: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Card className="overflow-hidden">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-white/[0.03]"
+      >
+        <div>
+          <p className="text-sm font-semibold text-white">{title}</p>
+          {!open ? <p className="mt-1 text-xs text-zinc-400">{summary}</p> : null}
+        </div>
+        <ChevronDown
+          className={cn(
+            "size-4 text-zinc-400 transition-transform duration-300 ease-in-out",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+      <div
+        className={cn(
+          "overflow-hidden transition-all duration-300 ease-in-out",
+          open ? "max-h-[2200px] opacity-100" : "max-h-0 opacity-0",
+        )}
+      >
+        <div className="border-t border-white/10 p-4">{children}</div>
+      </div>
+    </Card>
+  );
+}
+
 export default function InsightsPage() {
+  const [qualityOpen, setQualityOpen] = useState(false);
+  const [insightsOpen, setInsightsOpen] = useState(false);
+  const [correlationsOpen, setCorrelationsOpen] = useState(false);
+
   return (
     <PageShell
       eyebrow="AI Coach"
@@ -218,7 +269,14 @@ export default function InsightsPage() {
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
-        <DataQualityReportCard report={athleteDataQualityReport} />
+        <AccordionPanel
+          title="Athlete Data Quality Report"
+          summary="38% reliability · 9 issues detected"
+          open={qualityOpen}
+          onToggle={() => setQualityOpen((prev) => !prev)}
+        >
+          <DataQualityReportCard report={athleteDataQualityReport} />
+        </AccordionPanel>
 
         <Card>
           <CardHeader>
@@ -243,89 +301,103 @@ export default function InsightsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-300/15 bg-[linear-gradient(145deg,rgba(6,78,59,0.22),rgba(9,9,11,0.9))]">
-          <CardHeader>
-            <CardTitle>Performance correlations</CardTitle>
-            <p className="text-xs text-zinc-400">How recovery signals show up in run quality</p>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <AiCorrelationChart />
-            <div className="grid gap-3 lg:grid-cols-3">
-              {performanceCorrelations.map((correlation) => (
-                <div key={correlation.metric} className="rounded-xl border border-white/10 bg-black/20 p-4 transition hover:-translate-y-0.5 hover:border-white/20">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                      {correlation.metric}
+        <AccordionPanel
+          title="Performance Correlations"
+          summary="How recovery signals show up in run quality"
+          open={correlationsOpen}
+          onToggle={() => setCorrelationsOpen((prev) => !prev)}
+        >
+          <Card className="border-emerald-300/15 bg-[linear-gradient(145deg,rgba(6,78,59,0.22),rgba(9,9,11,0.9))]">
+            <CardHeader>
+              <CardTitle>Performance correlations</CardTitle>
+              <p className="text-xs text-zinc-400">How recovery signals show up in run quality</p>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <AiCorrelationChart />
+              <div className="grid gap-3 lg:grid-cols-3">
+                {performanceCorrelations.map((correlation) => (
+                  <div key={correlation.metric} className="rounded-xl border border-white/10 bg-black/20 p-4 transition hover:-translate-y-0.5 hover:border-white/20">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                        {correlation.metric}
+                      </p>
+                      <Badge variant="secondary">{correlation.strength}%</Badge>
+                    </div>
+                    <p className="mt-3 text-sm font-medium leading-6 text-white">
+                      {correlation.finding}
                     </p>
-                    <Badge variant="secondary">{correlation.strength}%</Badge>
+                    <p className="mt-2 text-xs leading-5 text-zinc-400">
+                      {correlation.detail}
+                    </p>
                   </div>
-                  <p className="mt-3 text-sm font-medium leading-6 text-white">
-                    {correlation.finding}
-                  </p>
-                  <p className="mt-2 text-xs leading-5 text-zinc-400">
-                    {correlation.detail}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </AccordionPanel>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>AI insights feed</CardTitle>
-            <p className="text-xs text-zinc-400">Pattern recognition, fatigue warnings, and actionable coaching</p>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            {aiInsightFeed.map((insight) => {
-              const Icon = categoryIcons[insight.category as keyof typeof categoryIcons];
-              return (
-                <div key={insight.title} className="group rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.055]">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="flex gap-3">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] text-emerald-200">
-                        <Icon className="size-5" />
-                      </div>
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-medium text-white">{insight.title}</p>
-                          <span
-                            className={cn(
-                              "rounded-full border px-2 py-0.5 text-xs font-medium",
-                              statusStyles[insight.status as keyof typeof statusStyles],
-                            )}
-                          >
-                            {insight.status}
-                          </span>
+        <AccordionPanel
+          title="AI Insights Feed"
+          summary="Pattern recognition, fatigue warnings, and actionable coaching"
+          open={insightsOpen}
+          onToggle={() => setInsightsOpen((prev) => !prev)}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle>AI insights feed</CardTitle>
+              <p className="text-xs text-zinc-400">Pattern recognition, fatigue warnings, and actionable coaching</p>
+            </CardHeader>
+            <CardContent className="grid gap-3">
+              {aiInsightFeed.map((insight) => {
+                const Icon = categoryIcons[insight.category as keyof typeof categoryIcons];
+                return (
+                  <div key={insight.title} className="group rounded-xl border border-white/10 bg-white/[0.035] p-4 transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.055]">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex gap-3">
+                        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] text-emerald-200">
+                          <Icon className="size-5" />
                         </div>
-                        <p className="mt-2 text-sm leading-6 text-zinc-400">
-                          {insight.explanation}
-                        </p>
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-medium text-white">{insight.title}</p>
+                            <span
+                              className={cn(
+                                "rounded-full border px-2 py-0.5 text-xs font-medium",
+                                statusStyles[insight.status as keyof typeof statusStyles],
+                              )}
+                            >
+                              {insight.status}
+                            </span>
+                          </div>
+                          <p className="mt-2 text-sm leading-6 text-zinc-400">
+                            {insight.explanation}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-2 text-xs text-zinc-500">
+                        <Clock3 className="size-3.5" />
+                        {insight.timestamp}
                       </div>
                     </div>
-                    <div className="flex shrink-0 items-center gap-2 text-xs text-zinc-500">
-                      <Clock3 className="size-3.5" />
-                      {insight.timestamp}
-                    </div>
-                  </div>
-                  <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
-                        Recommendation
+                    <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                          Recommendation
+                        </p>
+                        <Badge variant="outline">{insight.severity}</Badge>
+                      </div>
+                      <p className="mt-2 text-sm leading-6 text-zinc-200">
+                        {insight.recommendation}
                       </p>
-                      <Badge variant="outline">{insight.severity}</Badge>
                     </div>
-                    <p className="mt-2 text-sm leading-6 text-zinc-200">
-                      {insight.recommendation}
-                    </p>
                   </div>
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+                );
+              })}
+            </CardContent>
+          </Card>
+        </AccordionPanel>
 
         <Card className="sticky top-4 h-fit border-cyan-300/15 bg-[linear-gradient(145deg,rgba(8,47,73,0.28),rgba(9,9,11,0.9))]">
           <CardHeader>
