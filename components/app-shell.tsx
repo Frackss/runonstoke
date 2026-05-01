@@ -7,11 +7,11 @@ import {
   ChartNoAxesColumnIncreasing,
   HeartPulse,
   LayoutDashboard,
+  Plug,
   UserRound,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { demoAthlete } from "@/data/demo-athlete";
@@ -23,6 +23,7 @@ const navItems = [
   { label: "Training", href: "/training", Icon: ChartNoAxesColumnIncreasing },
   { label: "Insights", href: "/insights", Icon: Brain },
   { label: "Profile", href: "/profile", Icon: UserRound },
+  { label: "Connect", href: "/connect", Icon: Plug },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -30,31 +31,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-transparent text-white">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/10 bg-zinc-950/70 p-4 backdrop-blur-xl lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/10 bg-zinc-950/70 p-4 backdrop-blur-xl lg:flex lg:flex-col">
         <Link href="/dashboard" className="flex items-center gap-3">
           <Avatar className="size-11">
             <AvatarFallback className="bg-cyan-300 text-zinc-950">{demoAthlete.initials}</AvatarFallback>
           </Avatar>
           <div>
             <p className="text-sm font-semibold">Wes Fairfax</p>
-            <p className="text-xs text-zinc-500">Sub-25 5K</p>
+            <p className="text-xs text-zinc-500">Sub-30 5K</p>
           </div>
         </Link>
 
-        <div className="mt-6 rounded-xl border border-emerald-300/15 bg-emerald-300/8 p-3">
-          <div className="flex items-center justify-between">
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/70">
-              Demo athlete
-            </p>
-            <Badge>{demoAthlete.status}</Badge>
-          </div>
-          <p className="mt-3 text-lg font-semibold">{demoAthlete.name}</p>
-          <p className="text-xs text-zinc-400">
-            {demoAthlete.goal} · {demoAthlete.weeklyMileage} mi/week
-          </p>
-        </div>
-
-        <nav className="mt-6 grid gap-1">
+        <nav className="mt-6 grid grow gap-1 content-start">
           {navItems.map(({ label, href, Icon }) => {
             const active = pathname === href;
             return (
@@ -75,6 +63,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
+
+        <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+          <span className="text-sm font-semibold text-white">Stoke</span>
+          <ThemeToggle />
+        </div>
 
       </aside>
 
@@ -97,7 +90,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <main className="pb-24 lg:pl-64 lg:pb-0">{children}</main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid h-16 grid-cols-5 border-t border-white/10 bg-zinc-950/90 px-2 py-2 pb-[calc(env(safe-area-inset-bottom)+8px)] backdrop-blur-xl lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-30 grid h-16 grid-cols-6 border-t border-white/10 bg-zinc-950/90 px-2 py-2 pb-[calc(env(safe-area-inset-bottom)+8px)] backdrop-blur-xl lg:hidden">
         {navItems.map(({ label, href, Icon }) => {
           const active = pathname === href;
           return (

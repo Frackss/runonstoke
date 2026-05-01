@@ -29,7 +29,7 @@ export default function TrainingPage() {
   return (
     <PageShell
       eyebrow="Training"
-      title="Build the sub-25 base"
+      title="Build the sub-30 base"
       description="A compact training view that turns demo workouts into a realistic progression story."
     >
       <section className="grid gap-4 md:grid-cols-3">

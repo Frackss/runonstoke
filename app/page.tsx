@@ -10,48 +10,43 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const comparisonRows = [
   {
     title: "Cross-device data fusion",
-    sub: "Combines Oura Ring + Apple Watch into one score",
-    whoop: "no",
-    oura: "no",
+    sub: "Combines Oura + Apple Watch into one score",
+    ouraAw: "partial",
+    strava: "no",
     trainingPeaks: "no",
-    garmin: "no",
     stoke: "yes",
   },
   {
-    title: "Adaptive plan rewriting",
+    title: "Adaptive training plan",
     sub: "Auto-adjusts workouts from last night's data",
-    whoop: "no",
-    oura: "no",
+    ouraAw: "no",
+    strava: "no",
     trainingPeaks: "partial",
-    garmin: "no",
     stoke: "yes",
   },
   {
-    title: "Runner-specific coaching",
-    sub: "Built for pace, load & race-day prep",
-    whoop: "no",
-    oura: "no",
+    title: "Plain-English AI coaching",
+    sub: "Explains why, not just what the number is",
+    ouraAw: "partial",
+    strava: "no",
+    trainingPeaks: "no",
+    stoke: "yes",
+  },
+  {
+    title: "Runner-specific recovery scoring",
+    sub: "Built around pace, load and race-day prep",
+    ouraAw: "no",
+    strava: "partial",
     trainingPeaks: "yes",
-    garmin: "partial",
     stoke: "yes",
   },
   {
     title: "No extra hardware needed",
-    sub: "Stoke requires Oura or Apple Watch for sleep data",
-    whoop: "no",
-    oura: "no",
-    trainingPeaks: "yes",
-    garmin: "partial",
+    sub: "Works with devices you already own",
+    ouraAw: "no",
+    strava: "no",
+    trainingPeaks: "partial",
     stoke: "partial",
-  },
-  {
-    title: "Plain-English AI insights",
-    sub: "Explains why, not just what the number is",
-    whoop: "partial",
-    oura: "partial",
-    trainingPeaks: "no",
-    garmin: "no",
-    stoke: "yes",
   },
 ] as const;
 
@@ -210,9 +205,9 @@ export default function LoginPage() {
               <thead>
                 <tr className="border-b border-white/10 text-zinc-200">
                   <th className="w-[40%] px-3 py-4 text-left font-medium">Feature</th>
-                  <th className="px-3 py-4 font-medium">WHOOP / Oura Ring</th>
+                  <th className="px-3 py-4 font-medium">Oura + Apple Watch</th>
+                  <th className="px-3 py-4 font-medium">Strava</th>
                   <th className="px-3 py-4 font-medium">TrainingPeaks</th>
-                  <th className="px-3 py-4 font-medium">Garmin Connect</th>
                   <th className="border-l border-r border-cyan-300/30 bg-cyan-300/15 px-3 py-4 font-semibold text-cyan-100">Stoke</th>
                 </tr>
               </thead>
@@ -223,9 +218,9 @@ export default function LoginPage() {
                       <p className="font-medium leading-5 text-white">{row.title}</p>
                       <p className="mt-1 text-xs leading-5 text-zinc-500">{row.sub}</p>
                     </td>
-                    <SupportCell value={row.whoop} />
+                    <SupportCell value={row.ouraAw} />
+                    <SupportCell value={row.strava} />
                     <SupportCell value={row.trainingPeaks} />
-                    <SupportCell value={row.garmin} />
                     <SupportCell value={row.stoke} stoke />
                   </tr>
                 ))}
@@ -234,7 +229,7 @@ export default function LoginPage() {
                   <td />
                   <td />
                   <td />
-                  <td className="border-l border-r border-cyan-300/30 bg-cyan-300/15 px-3 py-3 text-center text-xs font-semibold text-cyan-100">Only Stoke ✓</td>
+                  <td className="border-l border-r border-cyan-300/30 bg-cyan-300/15 px-3 py-3 text-center text-xs font-semibold text-cyan-100" />
                 </tr>
               </tbody>
             </table>
@@ -242,7 +237,7 @@ export default function LoginPage() {
 
           <p className="mt-4 text-xs text-zinc-400">✓ Full support  — Partial  · Not available</p>
           <p className="mt-2 text-xs text-zinc-500">
-            * Stoke is an early-stage demo. Cross-device fusion and adaptive planning are core features in active development.
+            * Oura + Apple Watch collect great data separately. Stoke is the intelligence layer that connects them.
           </p>
         </section>
 

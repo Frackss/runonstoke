@@ -101,12 +101,15 @@ function AccordionPanel({
         />
       </button>
       <div
+        aria-hidden={!open}
         className={cn(
-          "overflow-hidden transition-all duration-300 ease-in-out",
-          open ? "max-h-[2200px] opacity-100" : "max-h-0 opacity-0",
+          "accordion-content overflow-hidden transition-all duration-300 ease-in-out",
+          open ? "open max-h-[2200px] opacity-100" : "collapsed max-h-0 p-0 opacity-0",
         )}
       >
-        <div className="border-t border-white/10 p-4">{children}</div>
+        <div className={cn(open ? "border-t border-white/10 p-4" : "border-none p-0 m-0")}>
+          {children}
+        </div>
       </div>
     </Card>
   );
@@ -268,7 +271,7 @@ export default function InsightsPage() {
         </Card>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
+      <section className="grid items-start gap-4 xl:grid-cols-[0.95fr_1.05fr]">
         <AccordionPanel
           title="Athlete Data Quality Report"
           summary="38% reliability · 9 issues detected"
@@ -337,7 +340,7 @@ export default function InsightsPage() {
         </AccordionPanel>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+      <section className="grid items-start gap-4 xl:grid-cols-[1.05fr_0.95fr]">
         <AccordionPanel
           title="AI Insights Feed"
           summary="Pattern recognition, fatigue warnings, and actionable coaching"

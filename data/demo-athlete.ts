@@ -49,12 +49,12 @@ const mileageByDay = new Map(displayWorkouts.map((workout) => [dayName(workout.d
 export const demoAthlete = {
   name: "Wes Fairfax",
   firstName: "Wes",
-  initials: "ST",
+  initials: "WF",
   age: 25,
   team: "Independent Endurance",
   location: "Raleigh, NC",
   focus: "5K comeback block",
-  goal: "Sub-25 5K",
+  goal: "Sub-30 5K",
   weeklyMileage: oneDecimal(analytics.weeklyMileage),
   readiness: oneDecimal(latestRecovery?.readiness ?? 76),
   status: analytics.overtrainingRisk === "elevated" ? "Fatigue watch" : "Building safely",
@@ -85,7 +85,7 @@ export const notifications = [
   },
   {
     title: "Goal pace marker",
-    detail: "Sub-25 requires 8:02/mi. Current steady pace is trending closer.",
+    detail: "Sub-30 requires 9:39/mi. Current steady pace is trending closer.",
     tone: "cyan",
   },
 ];
@@ -128,9 +128,9 @@ export const summaryStats = [
   },
   {
     label: "Avg easy pace",
-    value: secondsToPace(analytics.averageEasyPaceSeconds),
+    value: "11:42",
     unit: "/mi",
-    delta: "-14s",
+    delta: "-18s faster than last week",
     detail: "normalized pace",
     tone: "cyan",
   },
@@ -182,12 +182,12 @@ export const fatigueTrend = trainingLoadTrend.map((entry) => ({
 }));
 
 export const paceTrend = [
-  { week: "W-1", easy: 11.8, goal: 8.02 },
-  { week: "W-2", easy: 11.5, goal: 8.02 },
-  { week: "W-3", easy: 11.2, goal: 8.02 },
-  { week: "W-4", easy: 10.9, goal: 8.02 },
-  { week: "W-5", easy: 10.6, goal: 8.02 },
-  { week: "Now", easy: 10.2, goal: 8.02 },
+  { week: "W-1", easy: 11.8, goal: 9.65 },
+  { week: "W-2", easy: 11.5, goal: 9.65 },
+  { week: "W-3", easy: 11.2, goal: 9.65 },
+  { week: "W-4", easy: 10.9, goal: 9.65 },
+  { week: "W-5", easy: 10.6, goal: 9.65 },
+  { week: "Now", easy: 10.2, goal: 9.65 },
 ];
 
 export const workouts = displayWorkouts
@@ -214,9 +214,9 @@ export const weeklySummaries = [
 ];
 
 export const personalRecords = [
-  { event: "5K", mark: "27:18", date: "Mar 2026" },
-  { event: "10K", mark: "58:42", date: "Nov 2025" },
-  { event: "Mile", mark: "7:31", date: "Feb 2026" },
+  { event: "5K", mark: "31:42", date: "Mar 2026" },
+  { event: "10K", mark: "1:08:55", date: "Nov 2025" },
+  { event: "Mile", mark: "9:28", date: "Feb 2026" },
 ];
 
 export const recentImprovements = [
@@ -253,7 +253,7 @@ export const aiCoachHero = {
   trainingStatus:
     analytics.overtrainingRisk === "elevated"
       ? "Training is temporarily outpacing recovery capacity."
-      : "Building safely toward sub-25 fitness with improving pace and low overtraining risk.",
+      : "Building safely toward sub-30 fitness with improving pace and low overtraining risk.",
 };
 
 export const todayRecommendation = {
